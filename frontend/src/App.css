@@ -1,3 +1,4 @@
+/* --- STYLES FOR TODO APP --- */
 
 .app-container {
   width: 600px;
@@ -5,11 +6,7 @@
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-h1 {
-  color: #a6d8ff;
-  margin-bottom: 1.5rem;
+  margin: 2rem auto;
 }
 
 .add-todo-form {
@@ -88,4 +85,108 @@ h1 {
 
 .todo-list li:hover .delete-btn {
   opacity: 1;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-card {
+  width: 400px;
+  padding: 2.5rem;
+  background-color: #2c2c2c;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.auth-form h2 {
+  color: #a6d8ff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+  box-sizing: border-box; /* Important for padding */
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #a6d8ff;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  background-color: #a6d8ff;
+  color: #242424;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.auth-form button:hover {
+  background-color: #8cc3ea;
+}
+
+.auth-switch-text {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #aaa;
+}
+
+.auth-switch-text span {
+  color: #a6d8ff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* --- STYLES FOR TODO APP HEADER --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.header h1 {
+  margin-bottom: 0;
+}
+
+.logout-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ff6b6b;
+  background-color: transparent;
+  color: #ff6b6b;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #ff6b6b;
+  color: #fff;
+}
+
+.error-message {
+  color: #ff6b6b;
+  background-color: rgba(255, 107, 107, 0.1);
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
 }
