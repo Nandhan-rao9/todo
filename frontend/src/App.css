@@ -1,0 +1,91 @@
+
+.app-container {
+  width: 600px;
+  background-color: #2c2c2c;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  color: #a6d8ff;
+  margin-bottom: 1.5rem;
+}
+
+.add-todo-form {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.add-todo-form input {
+  flex-grow: 1;
+  padding: 0.75rem;
+  border: 1px solid #444;
+  border-radius: 4px 0 0 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.add-todo-form input:focus {
+  outline: none;
+  border-color: #a6d8ff;
+}
+
+.add-todo-form button {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #a6d8ff;
+  background-color: #a6d8ff;
+  color: #242424;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+  transition: background-color 0.2s;
+}
+
+.add-todo-form button:hover {
+  background-color: #8cc3ea;
+}
+
+.todo-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #333;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.todo-list li.completed span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.todo-list li span {
+  cursor: pointer;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.todo-list li:hover .delete-btn {
+  opacity: 1;
+}
