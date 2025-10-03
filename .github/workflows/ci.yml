@@ -25,7 +25,7 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: pip install -r backend/requirements.txt # Step 3: Install our libraries
+        run: pip install -r todo/backend/requirements.txt # Step 3: Install our libraries
       
       # Optional: Add a linter here in the future like flake8
 
