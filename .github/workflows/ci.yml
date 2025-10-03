@@ -5,9 +5,9 @@ name: CI Pipeline # The name of our workflow
 # 1. When to run the workflow
 on:
   push:
-    branches: [ "main", "develop" ] # Runs on pushes to main or develop branches
+    branches: [ "master", "develop" ] # Runs on pushes to main or develop branches
   pull_request:
-    branches: [ "main" ] # Also runs on pull requests targeting the main branch
+    branches: [ "master" ] # Also runs on pull requests targeting the main branch
 
 # 2. What jobs to run
 jobs:
