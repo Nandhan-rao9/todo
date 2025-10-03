@@ -25,7 +25,7 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        working-directory: ./backend
+        working-directory: backend
         run: pip install -r requirements.txt # Step 3: Install our libraries
       
       # Optional: Add a linter here in the future like flake8
