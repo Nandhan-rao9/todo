@@ -10,21 +10,16 @@ const Register = ({ setAuthToken }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError('');
 
     try {
-      // Make a POST request to our new backend endpoint
       const response = await axios.post('http://localhost:5000/api/register', {
         username,
         password,
       });
       
-      // On success, show a confirmation and maybe suggest logging in
       alert(response.data.message);
-      // You could automatically switch to the login view here if you wanted.
-
     } catch (err) {
-      // If the backend returns an error (like "Username already exists")
       if (err.response && err.response.data) {
         setError(err.response.data.error);
         console.error("Registration error:", err.response.data.error);

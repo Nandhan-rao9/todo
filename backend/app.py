@@ -82,9 +82,9 @@ def login():
 @app.route('/api/todos', methods=['GET'])
 @token_required
 def get_todos(current_user):
-    # The user's todos are already in the user document
     return jsonify(current_user.get('todos', []))
 
+# dueDate and priority
 @app.route('/api/todos', methods=['POST'])
 @token_required
 def add_todo(current_user):
@@ -92,7 +92,9 @@ def add_todo(current_user):
     new_todo = {
         "todo_id": str(uuid.uuid4()),
         "content": data['content'],
-        "is_completed": False
+        "is_completed": False,
+        "priority": data.get('priority', 'Medium'), # Default to 'Medium' if not provided
+        "due_date": data.get('dueDate', None) # Can be null
     }
     users_collection.update_one(
         {'_id': current_user['_id']},
@@ -100,17 +102,21 @@ def add_todo(current_user):
     )
     return jsonify(new_todo), 201
 
-@app.route('/api/todos/<string:todo_id>', methods=['PUT'])
-@token_required
-def update_todo(current_user, todo_id):
-    data = request.get_json()
-    new_status = data.get('is_completed')
+# In app.py
 
-    # Find the specific todo in the array and update its 'is_completed' status
+@app.route('/api/todos/<string:todo_id>', methods=['PUT'])
+@token_required 
+def update_todo(current_user, todo_id):
+    data = request.get_json() # e.g., {'is_completed': True} or {'priority': 'High'}
+    
+    # Build the update query dynamically
+    update_fields = {f'todos.$.{key}': value for key, value in data.items()}
+    
     result = users_collection.update_one(
         {'_id': current_user['_id'], 'todos.todo_id': todo_id},
-        {'$set': {'todos.$.is_completed': new_status}}
+        {'$set': update_fields}
     )
+
     if result.matched_count == 0:
         return jsonify({'error': 'Todo not found'}), 404
     
@@ -118,6 +124,7 @@ def update_todo(current_user, todo_id):
     user = users_collection.find_one({'_id': current_user['_id']})
     updated_todo = next((t for t in user['todos'] if t['todo_id'] == todo_id), None)
     return jsonify(updated_todo)
+
 
 @app.route('/api/todos/<string:todo_id>', methods=['DELETE'])
 @token_required
