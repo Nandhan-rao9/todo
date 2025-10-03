@@ -25,6 +25,9 @@ jobs:
       - name: Install backend dependencies
         run: pip install -r backend/requirements.txt
 
+      - name: Run linting with Flake8
+        run: flake8 backend/
+
   # Frontend dependency check
   frontend-check:
     runs-on: ubuntu-latest
@@ -40,6 +43,9 @@ jobs:
 
       - name: Install frontend dependencies
         run: npm --prefix frontend install
+
+      - name: Linting with ESlint
+        run: npm --prefix frontend run lint
 
   # Docker build check
   docker-build-check:
