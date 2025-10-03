@@ -1,5 +1,3 @@
-// frontend/src/api.js
-
 import axios from 'axios';
 
 const api = axios.create({
@@ -7,7 +5,7 @@ const api = axios.create({
 });
 
 // Use an interceptor to add the auth token to every request
-api.interceptors.request.use(config => {
+api.interceptors.request.use(config => { 
   const token = localStorage.getItem('authToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

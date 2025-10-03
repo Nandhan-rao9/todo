@@ -1,30 +1,36 @@
 // frontend/src/components/TodoApp.jsx
 
 import React, { useState, useEffect } from 'react';
-import api from '../api'; // Use our configured axios instance
+import api from '../api';
+import AddTodoForm from './AddTodoForm';
+import TodoItem from './TodoItem';
+import './styles/TodoApp.css';
 
 const TodoApp = ({ handleLogout }) => {
   const [todos, setTodos] = useState([]);
-  const [newTodoContent, setNewTodoContent] = useState('');
+  // --- NEW: State to track the current sort order ---
+  const [sortBy, setSortBy] = useState('default'); 
 
+  // --- MODIFIED: useEffect now depends on 'sortBy' ---
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await api.get('/todos');
+        // Pass the sortBy state as a query parameter to the API
+        const response = await api.get(`/todos?sort=${sortBy}`);
         setTodos(response.data);
       } catch (error) {
         console.error("Failed to fetch todos:", error);
       }
     };
     fetchTodos();
-  }, []);
+  }, [sortBy]); // Re-run this effect whenever sortBy changes
 
-  const addTodo = async () => {
-    if (!newTodoContent.trim()) return;
+  const addTodo = async (todoData) => {
     try {
-      const response = await api.post('/todos', { content: newTodoContent });
-      setTodos([...todos, response.data]);
-      setNewTodoContent('');
+      const response = await api.post('/todos', todoData);
+      // After adding, refresh the list to maintain sort order
+      setSortBy('default'); // Or refetch based on current sort
+      setTodos([...todos, response.data]); // Simple add for now
     } catch (error) {
       console.error("Failed to add todo:", error);
     }
@@ -54,26 +60,25 @@ const TodoApp = ({ handleLogout }) => {
         <h1>My To-Do List</h1>
         <button onClick={handleLogout} className="logout-btn">Logout</button>
       </div>
-      <div className="add-todo-form">
-        <input
-          type="text"
-          value={newTodoContent}
-          onChange={(e) => setNewTodoContent(e.target.value)}
-          placeholder="What needs to be done?"
-          onKeyPress={(e) => e.key === 'Enter' && addTodo()}
-        />
-        <button onClick={addTodo}>Add To-Do</button>
+      
+      <AddTodoForm onAddTodo={addTodo} />
+      
+      {/* --- NEW: UI for sorting controls --- */}
+      <div className="filter-controls">
+        <span>Sort by:</span>
+        <button onClick={() => setSortBy('default')} className={sortBy === 'default' ? 'active' : ''}>Default</button>
+        <button onClick={() => setSortBy('due_date')} className={sortBy === 'due_date' ? 'active' : ''}>Due Date</button>
+        <button onClick={() => setSortBy('priority')} className={sortBy === 'priority' ? 'active' : ''}>Priority</button>
       </div>
+      
       <ul className="todo-list">
         {todos.map(todo => (
-          <li key={todo.todo_id} className={todo.is_completed ? 'completed' : ''}>
-            <span onClick={() => toggleTodo(todo.todo_id, todo.is_completed)}>
-              {todo.content}
-            </span>
-            <button onClick={() => deleteTodo(todo.todo_id)} className="delete-btn">
-              &times;
-            </button>
-          </li>
+          <TodoItem 
+            key={todo.todo_id} 
+            todo={todo} 
+            onToggle={toggleTodo}
+            onDelete={deleteTodo}
+          />
         ))}
       </ul>
     </div>

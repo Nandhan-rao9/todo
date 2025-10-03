@@ -1,6 +1,6 @@
 // frontend/src/App.jsx
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 import AuthPage from './components/AuthPage';
 import TodoApp from './components/TodoApp';
