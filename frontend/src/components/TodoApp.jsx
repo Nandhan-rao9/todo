@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../api';
 import AddTodoForm from './AddTodoForm';
 import TodoItem from './TodoItem';
-import './TodoApp.css';
+import './styles/TodoApp.css';
 
 const TodoApp = ({ handleLogout }) => {
   const [todos, setTodos] = useState([]);

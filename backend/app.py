@@ -79,8 +79,6 @@ def login():
     return jsonify({'error': 'Invalid username or password'}), 401
 
 # --- PROTECTED TODO ROUTES ---
-# In app.py
-
 @app.route('/api/todos', methods=['GET'])
 @token_required
 def get_todos(current_user):
@@ -99,6 +97,25 @@ def get_todos(current_user):
         todos.sort(key=lambda x: priority_map.get(x.get('priority'), 4))
 
     return jsonify(todos)
+
+# dueDate and priority
+@app.route('/api/todos', methods=['POST'])
+@token_required
+def add_todo(current_user):
+    data = request.get_json()
+    new_todo = {
+        "todo_id": str(uuid.uuid4()),
+        "content": data['content'],
+        "is_completed": False,
+        "priority": data.get('priority', 'Medium'), # Default to 'Medium' if not provided
+        "due_date": data.get('dueDate', None) # Can be null
+    }
+    users_collection.update_one(
+        {'_id': current_user['_id']},
+        {'$push': {'todos': new_todo}}
+    )
+    return jsonify(new_todo), 201
+
 # In app.py
 
 @app.route('/api/todos/<string:todo_id>', methods=['PUT'])
