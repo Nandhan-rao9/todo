@@ -1,0 +1,62 @@
+/* frontend/src/components/TodoApp.css */
+
+.priority-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  margin-right: 10px;
+}
+
+.priority-high .priority-badge { background-color: #e74c3c; } /* Red */
+.priority-medium .priority-badge { background-color: #f39c12; } /* Orange */
+.priority-low .priority-badge { background-color: #3498db; } /* Blue */
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-details {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.filter-controls {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: rgb(20, 20, 20);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-controls span {
+  font-weight: bold;
+  color: #555;
+}
+
+.filter-controls button {
+  padding: 5px 15px;
+  border: 1px solid #ddd;
+  background-color: grey;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-controls button.active {
+  background-color: #3498db;
+  color: darkgrey;
+  border-color: #3498db;
+}
+
+.filter-controls button:hover:not(.active) {
+  background-color: #ecf0f1;
+}
