@@ -1,0 +1,60 @@
+# .github/workflows/ci.yml
+
+name: CI Pipeline # The name of our workflow
+
+# 1. When to run the workflow
+on:
+  push:
+    branches: [ "main", "develop" ] # Runs on pushes to main or develop branches
+  pull_request:
+    branches: [ "main" ] # Also runs on pull requests targeting the main branch
+
+# 2. What jobs to run
+jobs:
+  # This job checks the backend
+  backend-check:
+    runs-on: ubuntu-latest # Use a fresh Ubuntu machine
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4 # Step 1: Download the code
+
+      - name: Set up Python
+        uses: actions/setup-python@v4 # Step 2: Install Python
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r backend/requirements.txt # Step 3: Install our libraries
+      
+      # Optional: Add a linter here in the future like flake8
+
+  # This job checks the frontend
+  frontend-check:
+    runs-on: ubuntu-latest # Use a fresh Ubuntu machine
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4 # Step 1: Download the code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4 # Step 2: Install Node.js
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm --prefix frontend install # Step 3: Run npm install in the frontend folder
+
+      # Optional: Add a linter here like ESLint
+
+  # This job checks if our Docker images can be built
+  docker-build-check:
+    runs-on: ubuntu-latest
+    needs: [backend-check, frontend-check] # This job waits for the other two to succeed
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4 # Step 1: Download the code
+
+      - name: Build the Docker images
+        run: docker-compose build # Step 2: Run the same build command we used locally
