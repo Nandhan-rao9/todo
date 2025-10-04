@@ -95,51 +95,55 @@ def login():
 @token_required
 def get_todos(current_user):
     # Get sorting parameter from URL, e.g., /api/todos?sort=due_date
-    sort_by = request.args.get('sort', 'default')
+    sort_by = request.args.get("sort", "default")
 
-    todos = current_user.get('todos', [])
+    todos = current_user.get("todos", [])
 
     # In-memory sorting on the server
-    if sort_by == 'due_date':
+    if sort_by == "due_date":
         # Sort by due_date, putting tasks without a date at the end
-        todos.sort(key=lambda x: (x.get('due_date') is None, x.get('due_date')))
-    elif sort_by == 'priority':
+        todos.sort(key=lambda x: (x.get("due_date") is None, x.get("due_date")))
+    elif sort_by == "priority":
         # Define the order for priorities
-        priority_map = {'High': 1, 'Medium': 2, 'Low': 3}
-        todos.sort(key=lambda x: priority_map.get(x.get('priority'), 4))
+        priority_map = {"High": 1, "Medium": 2, "Low": 3}
+        todos.sort(key=lambda x: priority_map.get(x.get("priority"), 4))
 
     return jsonify(todos)
 
+
 # dueDate and priority
-@app.route('/api/todos', methods=['POST'])
+@app.route("/api/todos", methods=["POST"])
 @token_required
 def add_todo(current_user):
     data = request.get_json()
     new_todo = {
         "todo_id": str(uuid.uuid4()),
-        "content": data['content'],
+        "content": data["content"],
         "is_completed": False,
-        "priority": data.get('priority', 'Medium'), # Default to 'Medium' if not provided
-        "due_date": data.get('dueDate', None) # Can be null
+        "priority": data.get(
+            "priority", "Medium"
+        ),  # Default to 'Medium' if not provided
+        "due_date": data.get("dueDate", None),  # Can be null
     }
     users_collection.update_one(
         {"_id": current_user["_id"]}, {"$push": {"todos": new_todo}}
     )
     return jsonify(new_todo), 201
 
+
 # In app.py
 
-@app.route('/api/todos/<string:todo_id>', methods=['PUT'])
-@token_required 
+
+@app.route("/api/todos/<string:todo_id>", methods=["PUT"])
+@token_required
 def update_todo(current_user, todo_id):
-    data = request.get_json() # e.g., {'is_completed': True} or {'priority': 'High'}
-    
+    data = request.get_json()  # e.g., {'is_completed': True} or {'priority': 'High'}
+
     # Build the update query dynamically
-    update_fields = {f'todos.$.{key}': value for key, value in data.items()}
-    
+    update_fields = {f"todos.$.{key}": value for key, value in data.items()}
+
     result = users_collection.update_one(
-        {'_id': current_user['_id'], 'todos.todo_id': todo_id},
-        {'$set': update_fields}
+        {"_id": current_user["_id"], "todos.todo_id": todo_id}, {"$set": update_fields}
     )
 
     if result.matched_count == 0:
@@ -151,7 +155,7 @@ def update_todo(current_user, todo_id):
     return jsonify(updated_todo)
 
 
-@app.route('/api/todos/<string:todo_id>', methods=['DELETE'])
+@app.route("/api/todos/<string:todo_id>", methods=["DELETE"])
 @token_required
 def delete_todo(current_user, todo_id):
     # Pull (remove) the todo from the todos array that matches the todo_id
@@ -168,4 +172,4 @@ def delete_todo(current_user, todo_id):
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
 
-#testing linting
+# testing linting
