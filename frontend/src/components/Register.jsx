@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Make sure to import axios
 
-const Register = ({ setAuthToken: _setAuthToken }) => {
+// eslint-disable-next-line no-unused-vars
+const Register = ({ setAuthToken}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); // State to hold error messages
