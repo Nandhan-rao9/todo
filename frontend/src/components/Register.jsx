@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Make sure to import axios
 
-const Register = ({ setAuthToken }) => {
+const Register = ({ setAuthToken: _setAuthToken }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); // State to hold error messages
