@@ -6,3 +6,4 @@ flask_bcrypt
 PyJWT
 gunicorn
 flake8
+pytest

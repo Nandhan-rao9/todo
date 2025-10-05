@@ -23,6 +23,9 @@ jobs:
 
       - name: Lint with flake8
         run: flake8 .  # runs from root to detect .flake8 config
+      
+      - name: Run backend tests
+        run: pytest backend/
 
   frontend-check:
     runs-on: ubuntu-latest
@@ -40,6 +43,9 @@ jobs:
 
       - name: Lint with ESLint
         run: npm --prefix frontend run lint
+
+      - name: Run frontend tests
+        run: npm --prefix frontend test
 
   docker-build-check:
     runs-on: ubuntu-latest
