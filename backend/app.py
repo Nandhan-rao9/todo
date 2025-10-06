@@ -15,7 +15,7 @@ load_dotenv()
 
 # 1. Initialize App and Extensions
 app = Flask(__name__)
-app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+app.config["MONGO_URI"] = os.getenv("MONGO_URI", "mongodb://localhost:27017/todo_test")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")  # For JWT
 CORS(app)
 bcrypt = Bcrypt(app)
