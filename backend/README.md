@@ -99,7 +99,7 @@ pytest
 
 Installation
 
-git clone https://github.com/yourusername/project.git
+git clone https://github.com/Nandhan-rao9/todo.git
 
 cd project
 
